@@ -62,6 +62,7 @@ def generate_keypair(bits):
     return PrivateKey(p, q, n), PublicKey(n)
 
 def encrypt(pub, plain):
+	"""Encrypts a plaintext using pub pulic key"""
     while True:
         r = primes.generate_prime(long(round(math.log(pub.n, 2))))
         if r > 0 and r < pub.n:
@@ -79,10 +80,11 @@ def e_add_const(pub, a, n):
     return a * modpow(pub.g, n, pub.n_sq) % pub.n_sq
 
 def e_mul_const(pub, a, n):
-    """Multiplies an ancrypted integer by a constant"""
+    """Multiplies an encrypted integer by a constant"""
     return modpow(a, n, pub.n_sq)
 
 def decrypt(priv, pub, cipher):
+	"""Decrypts a ciphertext using private and public keys"""
     x = pow(cipher, priv.l, pub.n_sq) - 1
     plain = ((x // pub.n) * priv.m) % pub.n
     return plain
